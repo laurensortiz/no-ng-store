@@ -1,7 +1,11 @@
 {
   "name": "gapstore",
   "version": "0.0.0",
-  "dependencies": {},
+  "dependencies": {
+    "body-parser": "^1.7.0",
+    "express": "^4.8.7",
+    "nedb": "^0.11.1"
+  },
   "devDependencies": {
     "grunt": "^0.4.1",
     "grunt-autoprefixer": "^0.7.3",
