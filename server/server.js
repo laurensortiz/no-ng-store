@@ -30,6 +30,11 @@ db.stores.ensureIndex({
   unique: true
 });
 
+db.stores.ensureIndex({
+  fieldName: 'address',
+  unique: true
+});
+
 db.products = new DataStore({
   filename: 'db/products.json',
   autoload: true
@@ -44,11 +49,34 @@ db.products = new DataStore({
 // Instance of Express router
 var router = express.Router();
 
-router.get('/', function (req, res) {
-  res.json({
-    message: 'Hey from the API!'
-  })
-});
+router.route('/stores')
+  // POST - http://localhost:8080/api/stores - Create Store
+  .post(function (req, res) {
+    var data = {};
+
+    if (!req.body.name) {
+      res.json(400, { error: { message: 'A name is required for a new store' } });
+      return;
+    }
+
+    if (!req.body.address) {
+      res.json(400, { error: { message: 'An address is required for a new store' } });
+      return;
+    }
+
+    data.name = req.body.name;
+    data.address = req.body.address;
+
+    db.stores.insert(data, function (err, created) {
+      if (err) {
+        res.json(500, { error: { message: err } });
+        return;
+      }
+
+      
+    });
+
+  });
 
 /*=======================================
 =            REGISTER ROUTES            =
