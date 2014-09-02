@@ -10,9 +10,32 @@ var express = require('express');
 var app = express();
 var bodyParser = require('body-parser');
 var port = process.env.PORT || 8080;
+var DataStore = require('nedb');
+var db = {}; 
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
+
+/*=====================================
+=            NEDB Database            =
+=====================================*/
+
+db.stores = new DataStore({
+  filename: 'db/stores.json',
+  autoload: true
+});
+
+db.stores.ensureIndex({
+  fieldName: 'name',
+  unique: true
+});
+
+db.products = new DataStore({
+  filename: 'db/products.json',
+  autoload: true
+});
+
+
 
 /*==============================
 =            ROUTES            =
